@@ -41,3 +41,6 @@ kube-prometheus-stack:
 
 thanos:
   enabled: false
+
+postgresql:
+  enabled: false

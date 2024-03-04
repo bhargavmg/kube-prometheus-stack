@@ -5,5 +5,8 @@ dependencies:
 - name: thanos
   repository: https://charts.bitnami.com/bitnami
   version: 12.21.0
-digest: sha256:6f128955b4b8e1e6841c9611d858bd9da270db6f7f06753703d8621ae4dc778d
-generated: "2024-03-04T13:05:55.620469+05:30"
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 13.4.3
+digest: sha256:db827caec94e8b193b7589812c676448155fbba69ec5e7129b520d6a2f0916e5
+generated: "2024-03-04T13:59:56.050995+05:30"

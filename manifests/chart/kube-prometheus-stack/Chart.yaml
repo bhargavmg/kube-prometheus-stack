@@ -17,4 +17,8 @@ dependencies:
     version: 12.21.0
     repository: "https://charts.bitnami.com/bitnami"
     condition: thanos.enabled
-
+  - name: postgresql
+    alias: postgresql
+    version: 13.4.3
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
