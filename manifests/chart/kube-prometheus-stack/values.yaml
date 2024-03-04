@@ -1,4 +1,5 @@
 kube-prometheus-stack:
+  enabled: true
   prometheusOperator:
     enabled: false
   crds:
@@ -36,17 +37,4 @@ kube-prometheus-stack:
   nodeExporter:
     enabled: false
   prometheus:
-    enabled: false
-postgresql:
-  enabled: true
-thanos:
-  bucketweb:
-    enabled: false
-  compactor:
-    enabled: false
-  queryFrontend:
-    enabled: false
-  receive:
-    enabled: false
-  storegateway:
     enabled: false
