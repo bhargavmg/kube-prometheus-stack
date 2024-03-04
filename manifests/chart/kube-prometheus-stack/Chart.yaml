@@ -11,3 +11,13 @@ dependencies:
     alias: kube-prometheus-stack
     version: 55.8.1
     repository: "https://prometheus-community.github.io/helm-charts"
+  - name: postgresql
+    alias: postgresql
+    version: 13.4.3
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
+  - name: thanos
+    alias: thanos
+    version: 12.21.0
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: thanos.enabled

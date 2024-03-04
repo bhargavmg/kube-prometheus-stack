@@ -37,3 +37,7 @@ kube-prometheus-stack:
     enabled: false
   prometheus:
     enabled: false
+postgresql:
+  enabled: true
+thanos:
+  enabled: true

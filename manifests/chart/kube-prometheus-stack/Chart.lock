@@ -2,5 +2,11 @@ dependencies:
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
   version: 55.8.1
-digest: sha256:fbb86730fa5c96018fc408864148f42065af4bd4b98577da69e3dfbd05075cab
-generated: "2024-02-28T16:29:01.795868+05:30"
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 13.4.3
+- name: thanos
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.21.0
+digest: sha256:97485e68344c04430ad78e8a6516e340d9c3db232cc5787d55fbb7ee826b2208
+generated: "2024-03-04T11:36:55.811134+05:30"
