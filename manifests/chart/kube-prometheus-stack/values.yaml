@@ -40,4 +40,13 @@ kube-prometheus-stack:
 postgresql:
   enabled: true
 thanos:
-  enabled: true
+  bucketweb:
+    enabled: false
+  compactor:
+    enabled: false
+  queryFrontend:
+    enabled: false
+  receive:
+    enabled: false
+  storegateway:
+    enabled: false
