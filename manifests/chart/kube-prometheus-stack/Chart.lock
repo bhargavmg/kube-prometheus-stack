@@ -8,5 +8,8 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 13.4.3
-digest: sha256:db827caec94e8b193b7589812c676448155fbba69ec5e7129b520d6a2f0916e5
-generated: "2024-03-04T13:59:56.050995+05:30"
+- name: grafana-operator
+  repository: oci://ghcr.io/grafana/helm-charts
+  version: v5.6.0
+digest: sha256:2d23e965f81dea5f868961dffa5d5d8f88f5dfe3a08b7296eb80a2762a3488bd
+generated: "2024-03-05T11:42:46.908805+05:30"

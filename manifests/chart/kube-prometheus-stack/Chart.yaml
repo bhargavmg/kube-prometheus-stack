@@ -22,3 +22,8 @@ dependencies:
     version: 13.4.3
     repository: "https://charts.bitnami.com/bitnami"
     condition: postgresql.enabled
+  - name: grafana-operator
+    alias: grafana-operator
+    version: v5.6.0
+    repository: "oci://ghcr.io/grafana/helm-charts"
+    condition: grafana-operator.enabled

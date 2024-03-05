@@ -44,3 +44,6 @@ thanos:
 
 postgresql:
   enabled: false
+
+grafana-operator:
+  enabled: false
