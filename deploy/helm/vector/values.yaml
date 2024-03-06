@@ -1,5 +1,5 @@
 vector-agent:
-  enabled: true
+  enabled: false
 
 vector-infra:
   enabled: false
