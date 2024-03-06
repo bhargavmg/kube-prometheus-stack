@@ -1,0 +1,94 @@
+---
+log_schema:
+  source_type: x-source_type
+  timestamp_key: '@timestamp'
+
+timezone: Etc/UTC
+data_dir: /vector-data-dir
+
+sources:
+  kubernetes:
+    type: kubernetes_logs
+    pod_annotation_fields:
+      container_id: ""
+
+transforms:
+  remap_source_kubernetes:
+    type: remap
+    inputs: [kubernetes]
+    source: |
+      %kafka_topic = "systemlogs"
+
+      # Parse pod log structured in JSON format
+      if exists(.message) && is_json(to_string!(.message), variant: "object") {
+          parsed_message = parse_json!(del(.message))
+          . = merge!(., parsed_message)
+      }
+
+      if exists(.kubernetes.container_name){
+        del(.tags)
+        .tags = ["k8s", "application", "container"]
+      }
+
+      .container.id = del(.kubernetes.container_id)
+      .container.image.name = del(.kubernetes.container_image)
+      .container.image.id = del(.kubernetes.container_image_id)
+      
+      del(.kubernetes.namespace_labels)
+      del(.kubernetes.pod_ips)
+      .kubernetes.node.labels = del(.kubernetes.node_labels)
+      .kubernetes.namespace = del(.kubernetes.pod_namespace)
+      .kubernetes.container.name = del(.kubernetes.container_name)
+      .kubernetes.labels = del(.kubernetes.pod_labels)
+      .kubernetes.pod.name = del(.kubernetes.pod_name)
+      .kubernetes.pod.uid = del(.kubernetes.pod_uid)
+      .kubernetes.pod.ip = del(.kubernetes.pod_ip)
+
+sinks:
+  kafka:
+    type: kafka
+    inputs: [remap_source_kubernetes]
+    bootstrap_servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    topic: '{{ %kafka_topic }}'
+    compression: none
+    encoding:
+      codec: json
+    healthcheck:
+      enabled: false
+
+tests:
+  - name: "Test remap_source_kubernetes"
+    inputs:
+      - insert_at:  remap_source_kubernetes
+        type: log
+        log_fields:
+          kubernetes.container_id: "docker://cb82e2345af392d0c6ffd9eeb0e8acb772d10e9b54f9616bd113c5abaac99e59"
+          kubernetes.container_image: "quay.io/argoproj/argocd:v2.9.3"
+          kubernetes.container_image_id: "docker-pullable://quay.io/argoproj/argocd@sha256:dfc13f4b9ddbf25a88f7018667ee45e35a49520e2716242e3f65ef75f88c25ff"
+          kubernetes.container_name: "argocd-notifications-controller"
+          kubernetes.node_labels."beta.kubernetes.io/arch": "arm64"
+          kubernetes.pod_ip: "10.1.0.32"
+          kubernetes.pod_ips[0]: "10.1.0.32"
+          kubernetes.pod_ips[1]: "::ffff:a01:20"
+          kubernetes.pod_labels."app.kubernetes.io/name": "argocd-notifications-controller"
+          kubernetes.pod_name: "argocd-notifications-controller-566465df76-xmn9x"
+          kubernetes.pod_uid: "d36ef0c1-afaf-4bce-9ef1-17c4c0f0e135"
+          message: "time=\"2024-01-30T12:29:39Z\" level=info msg=\"invalidated cache for resource in namespace: argocd with the name: argocd-notifications-cm\""
+    outputs:
+      - extract_from: [ remap_source_kubernetes ]
+        conditions:
+          - type: vrl
+            source: |
+              assert!(exists(.tags))
+              assert_eq!(.container.id, "docker://cb82e2345af392d0c6ffd9eeb0e8acb772d10e9b54f9616bd113c5abaac99e59")
+              assert_eq!(.container.image.name, "quay.io/argoproj/argocd:v2.9.3")
+              assert_eq!(.container.image.id, "docker-pullable://quay.io/argoproj/argocd@sha256:dfc13f4b9ddbf25a88f7018667ee45e35a49520e2716242e3f65ef75f88c25ff")
+              assert!(!exists(.kubernetes.namespace_labels))
+              assert!(exists(.kubernetes.node.labels))
+              assert_eq!(.kubernetes.pod.ip, "10.1.0.32")
+              assert!(!exists(.kubernetes.pod_ips))
+              assert!(exists(.kubernetes.labels))
+              assert!(!exists(.kubernetes.pod_labels))
+              assert_eq!(.kubernetes.pod.name, "argocd-notifications-controller-566465df76-xmn9x")
+              assert!(exists(.message))
+

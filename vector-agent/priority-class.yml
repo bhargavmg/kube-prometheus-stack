@@ -1,0 +1,7 @@
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: vector-agent-critical
+description: Used to ensure filebeat is scheduled before anything else, otherwise we may loose logs
+value: 200000000

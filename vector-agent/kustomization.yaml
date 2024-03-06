@@ -1,0 +1,12 @@
+---
+configMapGenerator:
+  - name: vector-agent-config
+    namespace: logging
+    options:
+      disableNameSuffixHash: true
+    files:
+      - config/main.yml
+resources:
+  - priority-class.yml
+  - vector-agent-role.yml
+  - vector-agent-rolebinding.yml
