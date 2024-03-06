@@ -1,0 +1,9 @@
+dependencies:
+- name: vector
+  repository: https://helm.vector.dev
+  version: 0.26.0
+- name: vector
+  repository: https://helm.vector.dev
+  version: 0.30.0
+digest: sha256:ca7fb4822fa7c18e2a00d31e0cd734dd2340e2a27e3edc7b7163e9a21688aa3f
+generated: "2024-03-06T12:42:14.76077+05:30"
