@@ -1,2 +1,5 @@
-vector:
-  enabled: true
+vector-agent:
+  enabled: false
+
+vector-infra:
+  enabled: false

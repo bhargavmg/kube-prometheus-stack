@@ -8,7 +8,12 @@ sources:
   - https://github.com/qlik-trial/kube-prometheus-stack
 dependencies:
   - name: vector
-    alias: vector
+    alias: vector-agent
+    version: 0.26.0
+    repository: "https://helm.vector.dev"
+    condition: vector-agent.enabled
+  - name: vector
+    alias: vector-infra
     version: 0.30.0
     repository: "https://helm.vector.dev"
-    condition: vector.enabled
+    condition: vector-infra.enabled
