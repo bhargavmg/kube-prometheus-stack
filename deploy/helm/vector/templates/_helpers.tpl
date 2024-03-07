@@ -1,3 +1,3 @@
-{{- define "vector.labels" }}
-app.kubernetes.io/name: {{ include "vector.name" . }}
+{{- define "vector.selectorLabels" -}}
+app.kubernetes.io/name: vector
 {{- end }}
